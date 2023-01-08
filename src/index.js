@@ -1,5 +1,6 @@
 import './index.html';
 import './index.css';
+import './index1.scss';
 const main = document.querySelector('.main');
 
 const h1 = document.createElement('h1');
