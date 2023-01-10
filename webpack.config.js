@@ -1,8 +1,13 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { webpack } = require("webpack");
+const mode = process.env.NODE_ENV || "development";
+const devMode = mode === "development";
+const devtool = devMode && "source-map";
 
 module.exports = {
+  mode,
+  devtool,
   entry: "./src/index.js",
   module: {
     rules: [
@@ -17,11 +22,13 @@ module.exports = {
     ],
   },
   devServer: {
+    port: 8080,
     open: true,
     hot: true,
   },
   output: {
     path: path.resolve(__dirname, "dist"),
+    clean: true,
     filename: "index_bundle.js",
   },
   plugins: [
@@ -29,5 +36,4 @@ module.exports = {
       template: path.resolve(__dirname, "src", "index.html"),
     }),
   ],
-  mode: process.env.NODE_ENV === "production" ? "production" : "development",
 };
