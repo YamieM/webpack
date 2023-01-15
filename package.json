@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build-dev": "webpack",
-    "build-prod": "webpack --node-env=production"
+    "start": "webpack-dev-server --config webpack.dev.config.js",
+    "build-dev": "webpack --config webpack.dev.config.js",
+    "build-prod": "webpack --node-env=production --config webpack.prod.config.js",
+    "clear": "rd /s /q dist"
   },
   "keywords": [],
   "author": "",

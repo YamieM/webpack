@@ -1,5 +1,13 @@
-.scss{
-    font-size: 50px;
-    color: darkmagenta;
-    text-decoration:line-through;
+.main {
+    display: flex;
+    flex-direction: row;
+    
+}
+.menu {
+  text-decoration: none;
+  font-weight: 700;
+  color: darkcyan;
+  &:hover {
+    color: rgba(87, 8, 177, 0.699);    
+  }
 }
