@@ -14,11 +14,11 @@ const PAGES = fs
 
 module.exports = {
   mode: "development",
-  // devtool: "source-map",
+  devtool: "source-map",
   entry: {
     index: "./src/index.js",
     about: "./src/about.js",
-    home: "./src/about.js",
+    home: "./src/home.js",
     cart: "./src/cart.js",
     about_product: "./src/about_product.js",
   },
@@ -34,10 +34,7 @@ module.exports = {
       },
     ],
   },
-  devServer: {
-    // static: {
-    //   directory: path.join(__dirname, "dist"),
-    // },
+  devServer: {    
     port: 8080,
     open: true,
     hot: true,
@@ -48,12 +45,16 @@ module.exports = {
     filename: `./[name]/[name].js`,
   },
   plugins: [
-    ...PAGES.map(
-      (page) =>
-        new HtmlWebpackPlugin({
-          template: `${PAGES_DIR}/${page}`,
-          filename: `./${page.slice(0, -5)}/index.html`,
-        })
+    ...PAGES.map((page) =>
+      page !== "index.html"
+        ? new HtmlWebpackPlugin({
+            template: `${PAGES_DIR}/${page}`,
+            filename: `./${page.slice(0, -5)}/index.html`,
+          })
+        : new HtmlWebpackPlugin({
+            filename: "index.html",
+            template: path.resolve(__dirname, "src", "index.html"),
+          })
     ),
   ],
 };

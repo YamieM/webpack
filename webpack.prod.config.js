@@ -11,15 +11,20 @@ const PAGES_DIR = `${PATHS.src}`;
 const PAGES = fs
   .readdirSync(PAGES_DIR)
   .filter((fileName) => fileName.endsWith(".html"));
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const STYLES = fs
+  .readdirSync(PAGES_DIR)
+  .filter((fileName) => fileName.endsWith(".css"));
+
 module.exports = {
+  mode: "production",
   entry: {
     index: "./src/index.js",
-    // about: "./src/about.js",
-    // home: "./src/about.js",
-    // cart: "./src/cart.js",
-    // aboutProduct: "./src/about_product.js",
+    about: "./src/about.js",
+    home: "./src/home.js",
+    cart: "./src/cart.js",
+    about_product: "./src/about_product.js",
   },
-  devtool: "source-map",
   module: {
     rules: [
       { test: /\.html$/, use: "html-loader" },
@@ -29,6 +34,10 @@ module.exports = {
       {
         test: /\.s[ac]ss$/,
         use: ["style-loader", "css-loader", "sass-loader"],
+      },
+      {
+        test: /\.css$/i,
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
     ],
   },
@@ -40,40 +49,25 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    filename: "[name].js",
+    filename: `./[name]/[name].[contenthash].js`,
   },
   plugins: [
-    ...PAGES.map(
-      (page) =>
-        new HtmlWebpackPlugin({
-          template: `${PAGES_DIR}/${page}`,
-          filename: `./${page}/${page.replace(/\.js/, ".html")}`,
+    ...PAGES.map((page) =>
+      page !== "index.html"
+        ? new HtmlWebpackPlugin({
+            template: `${PAGES_DIR}/${page}`,
+            filename: `./${page.slice(0, -5)}/index.html`,
+          })
+        : new HtmlWebpackPlugin({
+            filename: "index.html",
+            template: path.resolve(__dirname, "src", "index.html"),
+          })
+    ),
+    ...STYLES.map(
+      (el) =>
+        new MiniCssExtractPlugin({
+          filename: `./${el.slice(0, -4)}/${el}`,
         })
     ),
-    // new HtmlWebpackPlugin({
-    //   filename: "index.html",
-    //   template: path.resolve(__dirname, "src", "index.html"),
-    //   chunks: ["index"],
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "cart.html",
-    //   template: path.resolve(__dirname, "src", "cart.html"),
-    //   chunks: ["index"],
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "about.html",
-    //   template: path.resolve(__dirname, "src", "about.html"),
-    //   chunks: ["index"],
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "home.html",
-    //   template: path.resolve(__dirname, "src", "home.html"),
-    //   chunks: ["index"],
-    // }),
-    // new HtmlWebpackPlugin({
-    //   filename: "about_product.html",
-    //   template: path.resolve(__dirname, "src", "about_product.html"),
-    //   chunks: ["index"],
-    // }),
   ],
 };

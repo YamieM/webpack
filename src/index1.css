@@ -1,1 +1,13 @@
-/*# sourceMappingURL=index1.css.map */
+.main {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu {
+  text-decoration: none;
+  font-weight: 700;
+  color: darkcyan;
+}
+.menu:hover {
+  color: rgba(255, 0, 140, 0.699);
+}/*# sourceMappingURL=index1.css.map */

@@ -2,11 +2,6 @@ import "./index.html";
 import "./index.css";
 import "./index1.scss";
 
-// import "./about.js";
-// import "./home.js";
-// import "./about_product.js";
-// import "./cart.js";
-
 const indexMain = document.querySelector(".index-main");
 
 const homePage = document.createElement("a");
@@ -17,10 +12,10 @@ homePage.innerHTML = "HOME | ";
 aboutPage.innerHTML = "ABOUT US | ";
 aboutProdPage.innerHTML = "ABOUT PRODUCT | ";
 cartPage.innerHTML = "CART";
-homePage.href = "./home.html";
-aboutPage.href = "./about.html";
-aboutProdPage.href = "./about_product.html";
-cartPage.href = "./cart.html";
+homePage.href = "./home";
+aboutPage.href = "./about";
+aboutProdPage.href = "./about_product";
+cartPage.href = "./cart";
 [homePage, aboutPage, aboutProdPage, cartPage].forEach((elem) => {
   elem.classList.add("menu");
   indexMain?.appendChild(elem);

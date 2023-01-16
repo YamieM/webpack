@@ -1,3 +1,5 @@
+import './cart.scss';
+
 const cartMain = document.querySelector('.cart-main');
 const cart = document.createElement('h1');
 cart.innerHTML = "Cart";
