@@ -1,6 +1,6 @@
 import "./index.html";
+import "./index.scss";
 import "./index.css";
-import "./index1.scss";
 
 const indexMain = document.querySelector(".index-main");
 

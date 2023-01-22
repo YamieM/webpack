@@ -1,3 +1,5 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const fs = require("fs");
 const path = require("path");
 const PATHS = {
@@ -5,13 +7,10 @@ const PATHS = {
   dist: path.join(__dirname, "./dist"),
   assets: "./assets/",
 };
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { webpack } = require("webpack");
 const PAGES_DIR = `${PATHS.src}`;
 const PAGES = fs
   .readdirSync(PAGES_DIR)
   .filter((fileName) => fileName.endsWith(".html"));
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const STYLES = fs
   .readdirSync(PAGES_DIR)
   .filter((fileName) => fileName.endsWith(".css"));
@@ -29,27 +28,23 @@ module.exports = {
     rules: [
       { test: /\.html$/, use: "html-loader" },
       { test: /\.svg$/, use: "svg-inline-loader" },
-      { test: /\.css$/, use: ["style-loader", "css-loader"] },
+      { test: /\.css$/, use: [MiniCssExtractPlugin.loader, "css-loader"] },
       { test: /\.(js)$/, use: "babel-loader" },
       {
         test: /\.s[ac]ss$/,
-        use: ["style-loader", "css-loader", "sass-loader"],
-      },
-      {
-        test: /\.css$/i,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
       },
     ],
   },
-  devServer: {
-    port: 8080,
-    open: true,
-    hot: true,
-  },
+ 
   output: {
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    filename: `./[name]/[name].[contenthash].js`,
+    filename: (pathData) => {
+      return pathData.chunk.name === "index"
+        ? "[name].[contenthash].js"
+        : "./[name]/[name].[contenthash].js";
+    },
   },
   plugins: [
     ...PAGES.map((page) =>
@@ -63,11 +58,12 @@ module.exports = {
             template: path.resolve(__dirname, "src", "index.html"),
           })
     ),
-    ...STYLES.map(
-      (el) =>
-        new MiniCssExtractPlugin({
-          filename: `./${el.slice(0, -4)}/${el}`,
-        })
-    ),
+    new MiniCssExtractPlugin({
+      filename: (pathData) => {
+        return pathData.chunk.name === "index"
+          ? "[name].[contenthash].css"
+          : "./[name]/[name].[contenthash].css";
+      },
+    }),
   ],
 };

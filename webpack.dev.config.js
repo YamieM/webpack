@@ -1,3 +1,4 @@
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const fs = require("fs");
 const path = require("path");
 const PATHS = {
@@ -5,8 +6,7 @@ const PATHS = {
   dist: path.join(__dirname, "./dist"),
   assets: "./assets/",
 };
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const { webpack } = require("webpack");
+
 const PAGES_DIR = `${PATHS.src}`;
 const PAGES = fs
   .readdirSync(PAGES_DIR)
@@ -34,7 +34,7 @@ module.exports = {
       },
     ],
   },
-  devServer: {    
+  devServer: {
     port: 8080,
     open: true,
     hot: true,
@@ -42,7 +42,11 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "dist"),
     clean: true,
-    filename: `./[name]/[name].js`,
+    filename: (pathData) => {
+      return pathData.chunk.name === "index"
+        ? "[name].[contenthash].js"
+        : "./[name]/[name].[contenthash].js";
+    },
   },
   plugins: [
     ...PAGES.map((page) =>

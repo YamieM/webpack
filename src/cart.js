@@ -1,4 +1,6 @@
+import './cart.html';
 import './cart.scss';
+import './cart.css';
 
 const cartMain = document.querySelector('.cart-main');
 const cart = document.createElement('h1');

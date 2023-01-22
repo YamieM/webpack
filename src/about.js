@@ -1,3 +1,4 @@
+import './about.css';
 import './about.scss';
 
 const aboutMain = document.querySelector(".about-main");

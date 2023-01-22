@@ -1,4 +1,4 @@
-import './about_product.scss';
+import './about_product.css';
 
 const about_productMain = document.querySelector(".about_product-main");
 const about_product = document.createElement("h1");
