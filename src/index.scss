@@ -1,0 +1,13 @@
+.main {
+    display: flex;
+    flex-direction: row;
+    
+}
+.menu {
+  text-decoration: none;
+  font-weight: 700;
+  color: darkcyan;
+  &:hover {
+    color: rgba(255, 0, 140, 0.699);    
+  }
+}
